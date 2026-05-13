@@ -5,6 +5,7 @@ import { CheckCircle, Calendar, Home, Sun, Leaf, Moon, Play, Trophy, Menu } from
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
+
 export default function Practice() {
     const [selectedDay, setSelectedDay] = useState(1);
     const [completedTasks, setCompletedTasks] = useState<Record<number, number[]>>({});
@@ -41,6 +42,7 @@ export default function Practice() {
     const tasks = currentPlan.checklist || [];
     const doneCount = completedTasks[selectedDay]?.length || 0;
     const totalCompletedDays = completedDays.length;
+
 
     return (
         <div className="min-h-screen bg-zinc-950 text-white">
@@ -97,18 +99,21 @@ export default function Practice() {
             {/* Основной контент */}
             <div className="max-w-4xl mx-auto px-6">
 
-                {/* Календарь */}
-                <div className="mb-12 overflow-x-auto pb-4 scrollbar-hide">
-                    <div className="flex gap-3 min-w-max">
+                {/* Календарь дней — стабильный, без прыжков */}
+                <div className="mb-12">
+                    <p className="text-zinc-400 text-sm mb-4 pl-1">Выберите день</p>
+
+                    <div className="flex gap-3 overflow-x-auto pb-6 snap-x snap-mandatory scroll-smooth scrollbar-hide">
                         {Array.from({ length: 21 }, (_, i) => i + 1).map((day) => (
                             <button
                                 key={day}
                                 onClick={() => setSelectedDay(day)}
-                                className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl font-semibold transition-all flex-shrink-0 ${day === selectedDay
-                                    ? 'bg-emerald-500 text-black scale-110 shadow-lg'
-                                    : completedDays.includes(day)
-                                        ? 'bg-emerald-600/60 text-emerald-300'
-                                        : 'glass hover:bg-white/10'
+                                className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl font-semibold transition-all flex-shrink-0 snap-center
+                        ${day === selectedDay
+                                        ? 'bg-emerald-500 text-black scale-110 shadow-lg ring-2 ring-emerald-400/50'
+                                        : completedDays.includes(day)
+                                            ? 'bg-emerald-600/70 text-emerald-300'
+                                            : 'glass hover:bg-white/10 active:scale-95'
                                     }`}
                             >
                                 {day}

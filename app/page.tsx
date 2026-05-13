@@ -1,12 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Leaf, Sun, Moon, Calendar, Play, Pause } from 'lucide-react';
+import { Leaf, Sun, Moon, Calendar, Play, Pause, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
+
 export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -70,29 +72,58 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
-      <nav className="sticky top-0 z-50 glass border-b border-white/10 backdrop-blur-xl">
-        <div className="max-w-5xl mx-auto px-6 py-5 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center">
+      {/* 🔥 ПРЕМИУМ ШАПКА — финальная версия */}
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-zinc-950/90 backdrop-blur-2xl">
+        <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+
+          {/* Логотип */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 via-teal-400 to-cyan-400 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/30 transition-all group-hover:scale-110 group-hover:rotate-6">
               <Leaf className="w-5 h-5 text-black" />
             </div>
             <div>
-              <h1 className="text-xl font-semibold tracking-tight">Анти-Кортизол</h1>
-              <p className="text-[10px] text-zinc-500 -mt-1">21-дневный протокол</p>
+              <h1 className="text-2xl font-bold tracking-tighter">Анти-Кортизол</h1>
+              <p className="text-[10px] text-emerald-400 -mt-1 tracking-widest">21 ДЕНЬ • НОВОЕ СОСТОЯНИЕ</p>
             </div>
+          </Link>
+
+          {/* Десктоп меню */}
+          <div className="hidden md:flex items-center gap-10 text-sm font-medium">
+            <Link href="/theory" className="hover:text-emerald-400 transition-colors">Теория</Link>
+            <Link href="/practice" className="hover:text-emerald-400 transition-colors">Практика</Link>
+            <Link href="/diary" className="hover:text-emerald-400 transition-colors">Дневник</Link>
+            <Link href="/tools" className="hover:text-emerald-400 transition-colors">Инструменты</Link>
           </div>
 
-          <div className="hidden md:flex gap-8 text-sm font-medium">
-            <Link href="/theory" className="hover:text-emerald-400 transition">Теория</Link>
-            <Link href="/practice" className="hover:text-emerald-400 transition">Практика</Link>
-            <Link href="/diary" className="hover:text-emerald-400 transition">Дневник</Link>
-            <Link href="/tools" className="hover:text-emerald-400 transition">Инструменты</Link>
-          </div>
+          {/* Правая часть */}
+          <div className="flex items-center gap-4">
+            {/* Переключатель темы */}
+            <button
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="p-3 rounded-2xl hover:bg-white/10 transition-all active:scale-95"
+            >
+              {mounted && theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
 
-          <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="p-3 rounded-xl hover:bg-white/10 transition">
-            {mounted && theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </button>
+            {/* Мобильная кнопка меню */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-3 rounded-2xl hover:bg-white/10 transition-all"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+          </div>
         </div>
+
+        {/* Мобильное меню */}
+        {isMenuOpen && (
+          <div className="md:hidden border-t border-white/10 bg-zinc-950/95 backdrop-blur-2xl px-6 py-8 flex flex-col gap-6 text-lg">
+            <Link href="/theory" className="py-3 hover:text-emerald-400" onClick={() => setIsMenuOpen(false)}>Теория</Link>
+            <Link href="/practice" className="py-3 hover:text-emerald-400" onClick={() => setIsMenuOpen(false)}>Практика</Link>
+            <Link href="/diary" className="py-3 hover:text-emerald-400" onClick={() => setIsMenuOpen(false)}>Дневник</Link>
+            <Link href="/tools" className="py-3 hover:text-emerald-400" onClick={() => setIsMenuOpen(false)}>Инструменты</Link>
+          </div>
+        )}
       </nav>
 
       {/* HERO — исправленный */}
