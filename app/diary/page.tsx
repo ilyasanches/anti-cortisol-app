@@ -69,6 +69,7 @@ export default function Diary() {
 
     return (
         <div className="min-h-screen bg-zinc-950 text-white">
+            {/* NAV */}
             <nav className="sticky top-0 z-50 glass border-b border-white/10 backdrop-blur-xl">
                 <div className="max-w-5xl mx-auto px-6 py-5 flex justify-between items-center">
                     <Link href="/" className="flex items-center gap-3 hover:text-emerald-400 transition">
@@ -98,21 +99,33 @@ export default function Diary() {
                 )}
             </nav>
 
-            <div className="max-w-5xl mx-auto px-6 pt-24 md:pt-28 pb-24">
-                <div className="flex items-center gap-4 mb-12">
-                    <BookOpen className="w-12 h-12 md:w-14 md:h-14 text-emerald-400 flex-shrink-0" />
+            {/* Diary Hero — исправлено под ПК и мобильные */}
+            <div className="relative h-[420px] md:h-[520px] -mx-6 mb-12 overflow-hidden">
+                <img
+                    src="/images/diary-bg.jpg"
+                    alt="Дневник"
+                    className="absolute inset-0 w-full h-full object-cover object-top md:object-center"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/75 to-black/90" />
+
+                <div className="relative z-10 h-full flex items-center justify-center text-center px-6">
                     <div>
+                        <BookOpen className="w-16 h-16 mx-auto mb-6 text-emerald-400" />
                         <h1 className="text-5xl md:text-6xl font-bold tracking-tighter">Дневник</h1>
-                        <p className="text-xl md:text-2xl text-zinc-400">Твой личный прогресс за 21 день</p>
+                        <p className="text-xl text-zinc-400 mt-3">Следи за прогрессом и изменениями</p>
                     </div>
                 </div>
+            </div>
+
+            {/* Основной контент дневника */}
+            <div className="max-w-4xl mx-auto px-6">
 
                 {/* Форма записи */}
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass p-6 md:p-10 rounded-3xl mb-16">
                     <h2 className="text-3xl font-semibold mb-8">Сегодня • {new Date().toLocaleDateString('ru-RU')}</h2>
 
                     <div className="space-y-10">
-                        {/* Настроение — исправлено под мобильные */}
+                        {/* Настроение */}
                         <div>
                             <label className="block text-sm text-zinc-400 mb-4">Настроение сегодня</label>
                             <div className="grid grid-cols-7 gap-2 bg-white/5 border border-white/10 rounded-3xl p-4">
@@ -120,7 +133,7 @@ export default function Diary() {
                                     <button
                                         key={i}
                                         onClick={() => setCurrentEntry({ ...currentEntry, mood: i + 1 })}
-                                        className={`text-4xl md:text-5xl transition-all hover:scale-125 py-3 rounded-2xl ${currentEntry.mood === i + 1 ? 'bg-emerald-500/20 scale-110' : ''}`}
+                                        className={`text-4xl md:text-5xl py-3 rounded-2xl transition-all hover:scale-125 ${currentEntry.mood === i + 1 ? 'bg-emerald-500/20 scale-110' : ''}`}
                                     >
                                         {emoji}
                                     </button>
@@ -128,7 +141,7 @@ export default function Diary() {
                             </div>
                         </div>
 
-                        {/* Слайдеры */}
+                        {/* Слайдеры и инпуты */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                             {[
                                 { label: "Энергия", value: currentEntry.energy, key: "energy" },
@@ -197,7 +210,7 @@ export default function Diary() {
                                 ) : (
                                     <div className="text-center">
                                         <Upload className="w-10 h-10 mx-auto mb-3 text-zinc-400" />
-                                        <p className="text-zinc-400">Нажми чтобы загрузить фото</p>
+                                        <p className="text-zinc-400">Загрузить фото</p>
                                     </div>
                                 )}
                                 <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
@@ -210,139 +223,41 @@ export default function Diary() {
                             <textarea
                                 value={currentEntry.note}
                                 onChange={(e) => setCurrentEntry({ ...currentEntry, note: e.target.value })}
-                                placeholder="Как прошёл день? Что было сложно? Что особенно хорошо? Ощущения в теле..."
+                                placeholder="Как прошёл день? Что было сложно? Что получилось особенно хорошо? Ощущения в теле..."
                                 className="w-full h-40 md:h-48 bg-white/5 border border-white/10 rounded-3xl p-6 text-zinc-200 resize-y"
                             />
                         </div>
 
                         <button
                             onClick={saveEntry}
-                            className="w-full py-6 md:py-7 bg-gradient-to-r from-emerald-500 to-teal-500 text-black rounded-3xl font-semibold text-lg md:text-xl hover:scale-[1.02] transition-all active:scale-95"
+                            className="w-full py-6 md:py-7 bg-gradient-to-r from-emerald-500 to-teal-500 text-black rounded-3xl font-semibold text-lg md:text-xl hover:scale-[1.02] active:scale-95 transition-all"
                         >
                             Сохранить запись за сегодня
                         </button>
                     </div>
                 </motion.div>
 
-                {/* Графики — с настроенными осями */}
+                {/* Графики */}
                 {dates.length > 0 && (
                     <div className="glass p-6 md:p-10 rounded-3xl mb-12">
                         <h3 className="text-2xl font-semibold mb-8 flex items-center gap-3">
                             <TrendingUp className="w-6 h-6" /> Твой прогресс
                         </h3>
-
                         <div className="grid md:grid-cols-3 gap-6">
-                            {/* График Энергии */}
                             <div className="bg-white/5 p-4 rounded-3xl h-80">
-                                <Line
-                                    data={{
-                                        labels: dates,
-                                        datasets: [{
-                                            label: 'Энергия',
-                                            data: energyData,
-                                            borderColor: '#10b981',
-                                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                                            tension: 0.4,
-                                            borderWidth: 3
-                                        }]
-                                    }}
-                                    options={{
-                                        responsive: true,
-                                        maintainAspectRatio: false,
-                                        plugins: {
-                                            legend: { display: true, position: 'top', labels: { color: '#e4e4e7', font: { size: 13 } } },
-                                            title: { display: true, text: 'Энергия (1-10)', color: '#a1a1aa', font: { size: 14 } }
-                                        },
-                                        scales: {
-                                            y: {
-                                                min: 0,
-                                                max: 10,
-                                                grid: { color: 'rgba(255,255,255,0.08)' },
-                                                ticks: { color: '#71717a', stepSize: 2 }
-                                            },
-                                            x: {
-                                                grid: { color: 'rgba(255,255,255,0.08)' },
-                                                ticks: { color: '#71717a', maxRotation: 45, minRotation: 45 }
-                                            }
-                                        }
-                                    }}
-                                />
+                                <Line data={{ labels: dates, datasets: [{ label: 'Энергия', data: energyData, borderColor: '#10b981', tension: 0.4 }] }} options={{ responsive: true, maintainAspectRatio: false }} />
                             </div>
-
-                            {/* График Настроения */}
                             <div className="bg-white/5 p-4 rounded-3xl h-80">
-                                <Line
-                                    data={{
-                                        labels: dates,
-                                        datasets: [{
-                                            label: 'Настроение',
-                                            data: moodData,
-                                            borderColor: '#8b5cf6',
-                                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                                            tension: 0.4,
-                                            borderWidth: 3
-                                        }]
-                                    }}
-                                    options={{
-                                        responsive: true,
-                                        maintainAspectRatio: false,
-                                        plugins: {
-                                            legend: { display: true, position: 'top', labels: { color: '#e4e4e7' } },
-                                            title: { display: true, text: 'Настроение (1-10)', color: '#a1a1aa', font: { size: 14 } }
-                                        },
-                                        scales: {
-                                            y: {
-                                                min: 0,
-                                                max: 10,
-                                                grid: { color: 'rgba(255,255,255,0.08)' },
-                                                ticks: { color: '#71717a', stepSize: 2 }
-                                            },
-                                            x: {
-                                                grid: { color: 'rgba(255,255,255,0.08)' },
-                                                ticks: { color: '#71717a', maxRotation: 45 }
-                                            }
-                                        }
-                                    }}
-                                />
+                                <Line data={{ labels: dates, datasets: [{ label: 'Настроение', data: moodData, borderColor: '#8b5cf6', tension: 0.4 }] }} options={{ responsive: true, maintainAspectRatio: false }} />
                             </div>
-
-                            {/* График Веса */}
                             <div className="bg-white/5 p-4 rounded-3xl h-80">
-                                <Line
-                                    data={{
-                                        labels: dates,
-                                        datasets: [{
-                                            label: 'Вес (кг)',
-                                            data: weightData,
-                                            borderColor: '#f59e0b',
-                                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                                            tension: 0.4,
-                                            borderWidth: 3
-                                        }]
-                                    }}
-                                    options={{
-                                        responsive: true,
-                                        maintainAspectRatio: false,
-                                        plugins: {
-                                            legend: { display: true, position: 'top', labels: { color: '#e4e4e7' } },
-                                            title: { display: true, text: 'Вес (кг)', color: '#a1a1aa', font: { size: 14 } }
-                                        },
-                                        scales: {
-                                            y: {
-                                                grid: { color: 'rgba(255,255,255,0.08)' },
-                                                ticks: { color: '#71717a' }
-                                            },
-                                            x: {
-                                                grid: { color: 'rgba(255,255,255,0.08)' },
-                                                ticks: { color: '#71717a', maxRotation: 45 }
-                                            }
-                                        }
-                                    }}
-                                />
+                                <Line data={{ labels: dates, datasets: [{ label: 'Вес (кг)', data: weightData, borderColor: '#f59e0b', tension: 0.4 }] }} options={{ responsive: true, maintainAspectRatio: false }} />
                             </div>
                         </div>
                     </div>
                 )}
+
+                {/* История записей */}
                 <h3 className="text-2xl font-semibold mb-6">История записей</h3>
                 <div className="space-y-8">
                     {Object.entries(entries).reverse().map(([date, entry]) => (
@@ -358,9 +273,7 @@ export default function Diary() {
                                 <div>Талия: {entry.waist} см</div>
                             </div>
                             {entry.note && <p className="mt-6 text-zinc-300 italic leading-relaxed">«{entry.note}»</p>}
-                            {entry.photo && (
-                                <img src={entry.photo} alt="Фото" className="mt-6 w-full max-h-96 object-cover rounded-3xl" />
-                            )}
+                            {entry.photo && <img src={entry.photo} alt="Фото" className="mt-6 w-full max-h-96 object-cover rounded-3xl" />}
                         </motion.div>
                     ))}
                 </div>

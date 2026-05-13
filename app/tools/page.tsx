@@ -123,7 +123,7 @@ export default function Tools() {
 
     return (
         <div className="min-h-screen bg-zinc-950 text-white">
-            {/* NAV — адаптивный */}
+            {/* NAV — точечное улучшение */}
             <nav className="sticky top-0 z-50 glass border-b border-white/10 backdrop-blur-xl">
                 <div className="max-w-5xl mx-auto px-6 py-5 flex justify-between items-center">
                     <Link href="/" className="flex items-center gap-3 hover:text-emerald-400 transition">
@@ -153,16 +153,28 @@ export default function Tools() {
                 )}
             </nav>
 
-            <div className="max-w-5xl mx-auto px-6 pt-24 md:pt-28 pb-24">
-                <div className="flex items-center gap-4 mb-12">
-                    <Leaf className="w-12 h-12 md:w-14 md:h-14 text-emerald-400" />
+            {/* Tools Hero с новой фоткой — чисто, без дублирования */}
+            <div className="relative h-80 md:h-96 -mx-6 mb-12 overflow-hidden">
+                <img
+                    src="/images/breathing.jpg"
+                    alt="Инструменты"
+                    className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black/90" />
+
+                <div className="relative z-10 h-full flex items-center justify-center text-center px-6">
                     <div>
+                        <Leaf className="w-16 h-16 mx-auto mb-6 text-emerald-400" />
                         <h1 className="text-5xl md:text-6xl font-bold tracking-tighter">Инструменты</h1>
-                        <p className="text-xl md:text-2xl text-zinc-400">Практики, которые реально работают</p>
+                        <p className="text-xl text-zinc-400 mt-3">Практики, которые реально работают</p>
                     </div>
                 </div>
+            </div>
 
+            {/* Основной контент */}
+            <div className="max-w-4xl mx-auto px-6 pb-24">
                 <div className="space-y-8 md:space-y-12">
+                    {/* Здесь остаются все твои блоки: 4-7-8, Physiological Sigh, NSDR, КБЖУ и 5-минутный протокол */}
                     {/* 4-7-8 — сильно улучшенный и наполненный */}
                     <div className="glass p-6 md:p-10 rounded-3xl">
                         <h2 className="text-3xl font-bold mb-2">Дыхание 4-7-8</h2>
@@ -439,7 +451,7 @@ export default function Tools() {
                     </div>
                 </div>
             </div>
-            {/* 5-МИНУТНЫЙ АНТИСТРЕСС ПРОТОКОЛ — исправленный по ширине */}
+            {/* 5-МИНУТНЫЙ АНТИСТРЕСС ПРОТОКОЛ — минимализм + адаптив */}
             <div className="max-w-2xl mx-auto glass p-6 md:p-10 rounded-3xl">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 mb-10">
                     <div>
@@ -454,7 +466,6 @@ export default function Tools() {
                     </div>
                 </div>
 
-                {/* Прогресс */}
                 <div className="h-1 bg-white/10 rounded-full mb-10 overflow-hidden">
                     <div
                         className="h-1 bg-teal-400 rounded-full transition-all duration-1000"
@@ -462,7 +473,6 @@ export default function Tools() {
                     />
                 </div>
 
-                {/* Шаг */}
                 <div className="mb-10">
                     <div className="uppercase text-xs tracking-widest text-zinc-500 mb-2">
                         ШАГ {currentStep + 1} ИЗ 4
@@ -475,7 +485,6 @@ export default function Tools() {
                     </p>
                 </div>
 
-                {/* Кнопки */}
                 <div className="flex flex-col gap-3">
                     {!isProtocolRunning ? (
                         <button

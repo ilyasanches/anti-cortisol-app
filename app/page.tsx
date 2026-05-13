@@ -70,82 +70,71 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
-      {/* NAV — sticky вместо fixed */}
       <nav className="sticky top-0 z-50 glass border-b border-white/10 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+        <div className="max-w-5xl mx-auto px-6 py-5 flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <div className="w-11 h-11 bg-gradient-to-br from-emerald-400 to-violet-500 rounded-3xl flex items-center justify-center shadow-lg shadow-emerald-500/30">
-              <Leaf className="w-6 h-6 text-black" />
+            <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center">
+              <Leaf className="w-5 h-5 text-black" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold tracking-tighter">Анти-Кортизол</h1>
-              <p className="text-xs text-zinc-400 -mt-1">21-дневный протокол</p>
+              <h1 className="text-xl font-semibold tracking-tight">Анти-Кортизол</h1>
+              <p className="text-[10px] text-zinc-500 -mt-1">21-дневный протокол</p>
             </div>
           </div>
 
-          <div className="hidden md:flex gap-10 text-sm font-medium">
-            <Link href="/theory" className="hover:text-emerald-400 transition-colors">Теория</Link>
-            <Link href="/practice" className="hover:text-emerald-400 transition-colors">Практика</Link>
-            <Link href="/diary" className="hover:text-emerald-400 transition-colors">Дневник</Link>
-            <Link href="/tools" className="hover:text-emerald-400 transition-colors">Инструменты</Link>
+          <div className="hidden md:flex gap-8 text-sm font-medium">
+            <Link href="/theory" className="hover:text-emerald-400 transition">Теория</Link>
+            <Link href="/practice" className="hover:text-emerald-400 transition">Практика</Link>
+            <Link href="/diary" className="hover:text-emerald-400 transition">Дневник</Link>
+            <Link href="/tools" className="hover:text-emerald-400 transition">Инструменты</Link>
           </div>
 
-          <button 
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} 
-            className="p-3 rounded-2xl hover:bg-white/10 transition-all"
-          >
+          <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="p-3 rounded-xl hover:bg-white/10 transition">
             {mounted && theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
         </div>
       </nav>
 
-      {/* HERO */}
-      <section className="relative min-h-screen flex items-center justify-center pt-16">
-        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
-             style={{ backgroundImage: "url('/images/hero.jpg')" }} />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90" />
+      {/* HERO — исправленный */}
+      <section className="relative min-h-[100dvh] flex items-center justify-center pt-20 pb-12">
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/images/hero.jpg')" }} />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black/90" />
 
-        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-          <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md px-6 py-2 rounded-full mb-6">
-            <div className="w-3 h-3 bg-emerald-400 rounded-full animate-pulse" />
-            <span className="text-sm font-medium text-emerald-300">День {currentDay} из 21</span>
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-5 py-2 rounded-full mb-8">
+            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+            <span className="text-sm font-medium">День {currentDay} из 21</span>
           </div>
 
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-none mb-8">
-            Добро пожаловать обратно
+            Добро пожаловать
           </h1>
 
-          <p className="text-xl md:text-2xl text-zinc-300 max-w-2xl mx-auto">
-            Ты на <span className="text-emerald-400 font-semibold">{currentDay}</span> дне протокола.<br />
-            Каждый день — это шаг к новой версии себя.
+          <p className="text-xl md:text-2xl text-zinc-300 max-w-xl mx-auto mb-12">
+            Ты на <span className="text-emerald-400 font-semibold">{currentDay}</span> дне.<br />
+            Каждый день приближает тебя к спокойствию и энергии.
           </p>
 
-          <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              href="/theory"
-              className="px-10 py-5 bg-emerald-500 hover:bg-emerald-400 text-black font-semibold rounded-3xl transition-all active:scale-95 flex items-center justify-center gap-3"
-            >
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/theory" className="px-10 py-5 bg-emerald-500 hover:bg-emerald-400 text-black font-semibold rounded-3xl transition-all active:scale-95">
               Начать с Теории
             </Link>
-
-            <Link
-              href="/practice"
-              className="px-10 py-5 border border-white/30 hover:bg-white/10 rounded-3xl transition-all flex items-center justify-center gap-3"
-            >
+            <Link href="/practice" className="px-10 py-5 border border-white/30 hover:bg-white/10 rounded-3xl transition-all">
               Перейти к практике
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Прогресс */}
+      {/* Прогресс — улучшенная версия */}
       <section className="px-6 max-w-5xl mx-auto pb-20">
-        <div className="glass p-10 rounded-3xl">
-          <div className="flex justify-between items-end mb-6">
+        <div className="glass p-8 md:p-10 rounded-3xl">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-6">
             <div>
               <p className="text-sm text-zinc-400">Общий прогресс протокола</p>
               <p className="text-5xl font-bold text-emerald-400 mt-1 tabular-nums">{progress}%</p>
             </div>
+
             <div className="text-right">
               <p className="text-sm text-zinc-400">Дней завершено</p>
               <p className="text-4xl font-semibold">{completed.length} <span className="text-zinc-500 text-2xl">из 21</span></p>
@@ -156,14 +145,14 @@ export default function Home() {
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
-              transition={{ duration: 1, ease: "easeOut" }}
+              transition={{ duration: 1.2, ease: "easeOut" }}
               className="h-full bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 rounded-full"
             />
           </div>
 
           <div className="flex justify-between text-xs text-zinc-500">
-            <span>Начало</span>
-            <span>Финиш (21 день)</span>
+            <span>День 1</span>
+            <span>День 21</span>
           </div>
         </div>
       </section>
@@ -172,7 +161,7 @@ export default function Home() {
       <section className="py-20 px-6 max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center mb-4">Реальные результаты</h2>
         <p className="text-zinc-400 text-center mb-12 max-w-2xl mx-auto">
-          Посмотри, как меняется тело и самочувствие женщин, которые прошли протокол
+          Как меняется тело и самочувствие женщин после 21 дня протокола
         </p>
 
         <div className="grid md:grid-cols-2 gap-8">
@@ -181,14 +170,14 @@ export default function Home() {
             <img
               src="/images/before.jpg"
               alt="До"
-              className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+              className="w-full aspect-[4/3] object-cover transition-all duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
 
             <div className="absolute bottom-8 left-8 right-8">
               <p className="text-red-400 text-sm font-medium tracking-widest">ДО ПРОТОКОЛА</p>
               <p className="text-3xl font-semibold mt-2">Постоянная усталость, тревога, лишний вес на животе</p>
-              <p className="text-zinc-400 mt-4 text-sm">Типичные жалобы: «нет сил», «всё раздражает», «живот не уходит»</p>
+              <p className="text-zinc-400 mt-4 text-sm">«Нет сил», «всё раздражает», «живот не уходит»</p>
             </div>
           </div>
 
@@ -197,7 +186,7 @@ export default function Home() {
             <img
               src="/images/after.jpg"
               alt="После"
-              className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+              className="w-full aspect-[4/3] object-cover transition-all duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
 
@@ -300,7 +289,7 @@ export default function Home() {
         <h2 className="text-4xl font-bold text-center mb-4">Быстрый инструмент</h2>
         <p className="text-zinc-400 text-center mb-12">Самая эффективная техника для мгновенного снижения кортизола</p>
 
-        <div className="glass p-12 rounded-3xl text-center">
+        <div className="glass p-10 rounded-3xl text-center">
           <h3 className="text-2xl font-semibold mb-8">Дыхание 4-7-8</h3>
 
           <div className="mb-10">
@@ -314,17 +303,11 @@ export default function Home() {
 
           <div className="flex justify-center gap-4 mb-8">
             {!isBreathing ? (
-              <button
-                onClick={startBreathing}
-                className="px-12 py-5 bg-emerald-500 hover:bg-emerald-400 text-black rounded-3xl font-medium flex items-center gap-3 text-xl transition-all active:scale-95"
-              >
+              <button onClick={startBreathing} className="px-12 py-5 bg-emerald-500 hover:bg-emerald-400 text-black rounded-3xl font-medium flex items-center gap-3 text-xl transition-all active:scale-95">
                 <Play className="w-6 h-6" /> Начать сессию
               </button>
             ) : (
-              <button
-                onClick={stopBreathing}
-                className="px-12 py-5 bg-red-500/80 hover:bg-red-500 text-white rounded-3xl font-medium flex items-center gap-3 text-xl transition-all"
-              >
+              <button onClick={stopBreathing} className="px-12 py-5 bg-red-500/80 hover:bg-red-500 text-white rounded-3xl font-medium flex items-center gap-3 text-xl transition-all">
                 <Pause className="w-6 h-6" /> Остановить
               </button>
             )}
@@ -332,24 +315,14 @@ export default function Home() {
 
           <p className="text-emerald-400 font-medium mb-1">Циклов пройдено: {cycles}</p>
           <p className="text-xs text-zinc-500">Рекомендуется 2–3 раза в день, особенно при стрессе или перед сном</p>
-
-          {/* Краткая инструкция */}
-          <div className="mt-10 pt-8 border-t border-white/10 text-left text-sm">
-            <p className="font-medium text-emerald-400 mb-3">Как делать правильно:</p>
-            <ul className="space-y-2 text-zinc-400">
-              <li>• Вдох носом — 4 секунды</li>
-              <li>• Задержка дыхания — 7 секунд</li>
-              <li>• Выдох ртом — 8 секунд (со звуком «шшш»)</li>
-            </ul>
-          </div>
         </div>
       </section>
 
-      {/* Footer — улучшенная версия */}
+      {/* Footer */}
       <footer className="py-20 border-t border-white/10 bg-black/40">
         <div className="max-w-5xl mx-auto px-6 text-center">
           <div className="flex justify-center mb-6">
-            <div className="w-11 h-11 bg-gradient-to-br from-emerald-400 to-violet-500 rounded-3xl flex items-center justify-center">
+            <div className="w-11 h-11 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-3xl flex items-center justify-center">
               <Leaf className="w-6 h-6 text-black" />
             </div>
           </div>

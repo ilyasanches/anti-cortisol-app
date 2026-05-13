@@ -37,13 +37,6 @@ export default function Practice() {
         }
     };
 
-    const completeDay = () => {
-        if (!completedDays.includes(selectedDay)) {
-            setCompletedDays([...completedDays, selectedDay]);
-        }
-        if (selectedDay < 21) setSelectedDay(selectedDay + 1);
-    };
-
     const currentPlan = dailyPlans[selectedDay] || dailyPlans[1];
     const tasks = currentPlan.checklist || [];
     const doneCount = completedTasks[selectedDay]?.length || 0;
@@ -51,7 +44,7 @@ export default function Practice() {
 
     return (
         <div className="min-h-screen bg-zinc-950 text-white">
-            {/* NAV с мобильным меню */}
+            {/* NAV */}
             <nav className="sticky top-0 z-50 glass border-b border-white/10 backdrop-blur-xl">
                 <div className="max-w-5xl mx-auto px-6 py-5 flex justify-between items-center">
                     <Link href="/" className="flex items-center gap-3 hover:text-emerald-400 transition">
@@ -59,7 +52,6 @@ export default function Practice() {
                         <span className="font-medium hidden sm:inline">На главную</span>
                     </Link>
 
-                    {/* Десктоп меню */}
                     <div className="hidden md:flex gap-8 text-sm font-medium">
                         <Link href="/theory" className="hover:text-emerald-400 transition">Теория</Link>
                         <Link href="/practice" className="text-emerald-400">Практика</Link>
@@ -67,46 +59,55 @@ export default function Practice() {
                         <Link href="/tools" className="hover:text-emerald-400 transition">Инструменты</Link>
                     </div>
 
-                    {/* Мобильная кнопка меню */}
                     <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden p-2">
                         <Menu className="w-6 h-6" />
                     </button>
                 </div>
 
-                {/* Мобильное меню */}
                 {isMenuOpen && (
                     <div className="md:hidden border-t border-white/10 bg-zinc-950/95 backdrop-blur-xl px-6 py-8 flex flex-col gap-6 text-lg">
-                        <Link href="/theory" className="hover:text-emerald-400 transition" onClick={() => setIsMenuOpen(false)}>Теория</Link>
+                        <Link href="/theory" className="hover:text-emerald-400" onClick={() => setIsMenuOpen(false)}>Теория</Link>
                         <Link href="/practice" className="text-emerald-400" onClick={() => setIsMenuOpen(false)}>Практика</Link>
-                        <Link href="/diary" className="hover:text-emerald-400 transition" onClick={() => setIsMenuOpen(false)}>Дневник</Link>
-                        <Link href="/tools" className="hover:text-emerald-400 transition" onClick={() => setIsMenuOpen(false)}>Инструменты</Link>
+                        <Link href="/diary" className="hover:text-emerald-400" onClick={() => setIsMenuOpen(false)}>Дневник</Link>
+                        <Link href="/tools" className="hover:text-emerald-400" onClick={() => setIsMenuOpen(false)}>Инструменты</Link>
                     </div>
                 )}
             </nav>
 
-            <div className="max-w-5xl mx-auto px-6 pt-24 md:pt-28 pb-24">
-                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            {/* Practice Hero — новая версия */}
+            <div className="relative h-[460px] md:h-[560px] -mx-6 mb-12 overflow-hidden">
+                <img
+                    src="/images/morning-light.jpg"
+                    alt="Практика"
+                    className="absolute inset-0 w-full h-full object-cover object-top md:object-center"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black/90" />
+
+                <div className="relative z-10 h-full flex items-center justify-center text-center px-6">
                     <div>
+                        <Calendar className="w-16 h-16 mx-auto mb-6 text-emerald-400" />
                         <h1 className="text-5xl md:text-6xl font-bold tracking-tighter">Практика</h1>
-                        <p className="text-zinc-400 text-xl">День {selectedDay} из 21 • {currentPlan.module}</p>
-                    </div>
-                    <div className="text-right">
-                        <p className="text-sm text-zinc-400">Завершено дней</p>
-                        <p className="text-4xl font-bold text-emerald-400">{totalCompletedDays}/21</p>
+                        <p className="text-xl text-zinc-400 mt-3">
+                            День {selectedDay} из 21 • {currentPlan?.module || 'Модуль 1'}
+                        </p>
                     </div>
                 </div>
+            </div>
 
-                {/* Календарь — адаптивный */}
-                <div className="mb-12 overflow-x-auto pb-4">
+            {/* Основной контент */}
+            <div className="max-w-4xl mx-auto px-6">
+
+                {/* Календарь */}
+                <div className="mb-12 overflow-x-auto pb-4 scrollbar-hide">
                     <div className="flex gap-3 min-w-max">
                         {Array.from({ length: 21 }, (_, i) => i + 1).map((day) => (
                             <button
                                 key={day}
                                 onClick={() => setSelectedDay(day)}
                                 className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl font-semibold transition-all flex-shrink-0 ${day === selectedDay
-                                    ? 'bg-emerald-500 text-black scale-110'
+                                    ? 'bg-emerald-500 text-black scale-110 shadow-lg'
                                     : completedDays.includes(day)
-                                        ? 'bg-emerald-600/50 text-emerald-300'
+                                        ? 'bg-emerald-600/60 text-emerald-300'
                                         : 'glass hover:bg-white/10'
                                     }`}
                             >
@@ -148,12 +149,12 @@ export default function Practice() {
                             { icon: Leaf, label: "ДЕНЬ", text: currentPlan.day },
                             { icon: Moon, label: "ВЕЧЕР", text: currentPlan.evening }
                         ].map((item, i) => (
-                            <div key={i} className="bg-white/5 p-6 md:p-7 rounded-3xl hover:bg-white/10 transition-all border border-white/10">
+                            <div key={i} className="bg-white/5 p-6 rounded-3xl hover:bg-white/10 transition-all border border-white/10">
                                 <div className="flex items-center gap-3 text-emerald-400 mb-4">
                                     <item.icon className="w-6 h-6" />
                                     <span className="font-semibold tracking-wider">{item.label}</span>
                                 </div>
-                                <p className="text-zinc-200 leading-relaxed text-[15px] md:text-base">{item.text}</p>
+                                <p className="text-zinc-200 leading-relaxed">{item.text}</p>
                             </div>
                         ))}
                     </div>

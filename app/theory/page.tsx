@@ -97,7 +97,7 @@ export default function Theory() {
 
     return (
         <div className="min-h-screen bg-zinc-950 text-white">
-            {/* NAV — улучшенный для мобильных */}
+            {/* NAV — улучшенный */}
             <nav className="sticky top-0 z-50 glass border-b border-white/10 backdrop-blur-xl">
                 <div className="max-w-5xl mx-auto px-6 py-5 flex justify-between items-center">
                     <Link href="/" className="flex items-center gap-3 hover:text-emerald-400 transition">
@@ -105,7 +105,6 @@ export default function Theory() {
                         <span className="font-medium hidden sm:inline">На главную</span>
                     </Link>
 
-                    {/* Десктоп меню */}
                     <div className="hidden md:flex gap-8 text-sm font-medium">
                         <Link href="/theory" className="text-emerald-400">Теория</Link>
                         <Link href="/practice" className="hover:text-emerald-400 transition">Практика</Link>
@@ -113,37 +112,41 @@ export default function Theory() {
                         <Link href="/tools" className="hover:text-emerald-400 transition">Инструменты</Link>
                     </div>
 
-                    {/* Мобильное меню */}
-                    <button
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="md:hidden p-2"
-                    >
+                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden p-2">
                         <Menu className="w-6 h-6" />
                     </button>
                 </div>
 
-                {/* Мобильное выпадающее меню */}
                 {isMenuOpen && (
-                    <div className="md:hidden border-t border-white/10 bg-zinc-950/95 backdrop-blur-xl">
-                        <div className="px-6 py-8 flex flex-col gap-6 text-lg">
-                            <Link href="/theory" className="text-emerald-400" onClick={() => setIsMenuOpen(false)}>Теория</Link>
-                            <Link href="/practice" className="hover:text-emerald-400 transition" onClick={() => setIsMenuOpen(false)}>Практика</Link>
-                            <Link href="/diary" className="hover:text-emerald-400 transition" onClick={() => setIsMenuOpen(false)}>Дневник</Link>
-                            <Link href="/tools" className="hover:text-emerald-400 transition" onClick={() => setIsMenuOpen(false)}>Инструменты</Link>
-                        </div>
+                    <div className="md:hidden border-t border-white/10 bg-zinc-950/95 backdrop-blur-xl px-6 py-8 flex flex-col gap-6 text-lg">
+                        <Link href="/theory" className="text-emerald-400" onClick={() => setIsMenuOpen(false)}>Теория</Link>
+                        <Link href="/practice" className="hover:text-emerald-400 transition" onClick={() => setIsMenuOpen(false)}>Практика</Link>
+                        <Link href="/diary" className="hover:text-emerald-400 transition" onClick={() => setIsMenuOpen(false)}>Дневник</Link>
+                        <Link href="/tools" className="hover:text-emerald-400 transition" onClick={() => setIsMenuOpen(false)}>Инструменты</Link>
                     </div>
                 )}
             </nav>
 
-            <div className="max-w-5xl mx-auto px-6 pt-24 md:pt-28 pb-24">
-                <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-12">
-                    <BookOpen className="w-12 h-12 md:w-14 md:h-14 text-emerald-400 flex-shrink-0" />
+            {/* Theory Hero с новой фоткой */}
+            <div className="relative h-80 md:h-96 -mx-6 mb-12 overflow-hidden">
+                <img
+                    src="/images/theory-bg.jpg"
+                    alt="Теория"
+                    className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/70 to-black/90" />
+
+                <div className="relative z-10 h-full flex items-center justify-center text-center px-6">
                     <div>
+                        <BookOpen className="w-16 h-16 mx-auto mb-6 text-emerald-400" />
                         <h1 className="text-5xl md:text-6xl font-bold tracking-tighter">Теория</h1>
-                        <p className="text-xl md:text-2xl text-zinc-400">Полная научная основа 21-дневного протокола</p>
+                        <p className="text-xl text-zinc-400 mt-3">Полная научная основа 21-дневного протокола</p>
                     </div>
                 </div>
+            </div>
 
+            {/* Основной контент модулей — исправлено под ПК */}
+            <div className="max-w-5xl mx-auto px-6">
                 <div className="space-y-16 md:space-y-20">
                     {modules.map((module, index) => (
                         <motion.div
@@ -153,9 +156,9 @@ export default function Theory() {
                             transition={{ delay: index * 0.05 }}
                             className="glass p-8 md:p-12 rounded-3xl border border-white/10"
                         >
-                            <div className="flex flex-col lg:flex-row gap-10 lg:gap-12">
-                                {/* Левая колонка */}
-                                <div className="lg:w-96 flex-shrink-0">
+                            <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
+                                {/* Левая колонка — сделала гибкой */}
+                                <div className="lg:w-80 xl:w-96 flex-shrink-0">
                                     <div className="inline-flex items-center gap-3 bg-emerald-500/10 text-emerald-400 px-5 py-2.5 rounded-full mb-6 text-sm">
                                         <Clock className="w-4 h-4" /> {module.duration}
                                     </div>
@@ -206,4 +209,5 @@ export default function Theory() {
             </div>
         </div>
     );
-}
+
+};
